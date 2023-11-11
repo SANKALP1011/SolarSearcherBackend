@@ -11,6 +11,7 @@ func main() {
 
 	port := 3000
 	Routes.SpaceRoutes(app)
+
 	err := app.Listen(fmt.Sprintf(":%d", port))
 	if err != nil {
 		fmt.Printf("Error starting server: %v\n", err)

@@ -7,4 +7,5 @@ import (
 
 func SpaceRoutes(app *fiber.App) {
 	app.Get("/v1/getWeatherAnalysis", Controller.GetWeatherAnalaysis)
+	app.Get("/v1/getIssLocation", Controller.GetISSLocation)
 }
