@@ -32,18 +32,31 @@ func GetIssLiveLocationService() (Model.IssLocationModel, error) {
 	return location, nil
 }
 
-func GetMarsRoverData() (Model.MarsRoverModel, error) {
+func GetMarsRoverData() ([]Model.MarsRoverModel, error) {
 	currentDate := time.Now().Format("2006-01-02")
 	url := fmt.Sprintf(Utils.MarsRoverApi, currentDate)
 	resp, err := http.Get(url)
 	if err != nil {
-		return Model.MarsRoverModel{}, Error.CustomErrorHandler("Issue while fetching the image from the mars rover api", resp.StatusCode)
+		return nil, Error.CustomErrorHandler("Issue while fetching the image from the Mars Rover API", http.StatusInternalServerError)
 	}
 	defer resp.Body.Close()
-	var roverData Model.MarsRoverModel
-	err = json.NewDecoder(resp.Body).Decode(&roverData)
+
+	var roverApiResponse Model.MarsRoverModel
+	err = json.NewDecoder(resp.Body).Decode(&roverApiResponse)
 	if err != nil {
-		return Model.MarsRoverModel{}, Error.CustomErrorHandler("Issue while coverting the response to json", 400)
+		return nil, Error.CustomErrorHandler("Issue while converting the response to JSON", http.StatusBadRequest)
 	}
+
+	// Iterate through the photos in the Mars Rover API response
+	var roverData []Model.MarsRoverModel
+	for _, photo := range roverApiResponse.Photos {
+		roverData = append(roverData, Model.MarsRoverModel{
+			Mars_sol:     photo.Sol,
+			Camera_name:  photo.Camera.FullName,
+			Mars_img:     photo.ImgSrc,
+			Sol_to_Earth: photo.EarthDate,
+		})
+	}
+
 	return roverData, nil
 }

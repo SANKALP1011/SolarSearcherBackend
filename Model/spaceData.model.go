@@ -6,8 +6,11 @@ type IssLocationModel struct {
 }
 
 type MarsRoverModel struct {
-	Mars_sol     int
-	Camera_name  string
-	Mars_img     string
-	Sol_to_Earth string
+	Photos []struct {
+		ID        int    `json:"id"`
+		Sol       int    `json:"sol"`
+		Camera    string `json:"camera"`
+		ImgSrc    string `json:"img_src"`
+		EarthDate string `json:"earth_date"`
+	} `json:"photos"`
 }
