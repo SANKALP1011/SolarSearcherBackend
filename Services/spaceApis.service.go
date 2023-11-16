@@ -46,17 +46,8 @@ func GetMarsRoverData() ([]Model.MarsRoverModel, error) {
 	if err != nil {
 		return nil, Error.CustomErrorHandler("Issue while converting the response to JSON", http.StatusBadRequest)
 	}
-
-	// Iterate through the photos in the Mars Rover API response
+	//WORK ON THIS SERVICE
 	var roverData []Model.MarsRoverModel
-	// for _, photo := range roverApiResponse.Photos {
-	// 	roverData = append(roverData, Model.MarsRoverModel{
-	// 		Mars_sol:     photo.Sol,
-	// 		Camera_name:  photo.Camera.FullName,
-	// 		Mars_img:     photo.ImgSrc,
-	// 		Sol_to_Earth: photo.EarthDate,
-	// 	})
-	// }
 
 	return roverData, nil
 }
