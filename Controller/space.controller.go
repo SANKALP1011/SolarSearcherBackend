@@ -68,3 +68,38 @@ func GetISSLocation(c *fiber.Ctx) error {
 	return c.JSON(response)
 
 }
+func GetMarsRoverImage(c *fiber.Ctx) error {
+	data, err := Services.GetMarsRoverData()
+	if err != nil {
+		response := fiber.Map{
+			"Error": err.Error(),
+		}
+		return c.JSON(response)
+	}
+
+	databytes, err := ioutil.ReadAll(data.Body)
+	if err != nil {
+		response := fiber.Map{
+			"Error": err.Error(),
+		}
+		return c.JSON(response)
+	}
+
+	var img map[string]interface{}
+	err = json.Unmarshal(databytes, &img)
+	fmt.Print(img)
+	if err != nil {
+		response := fiber.Map{
+			"Error": err.Error(),
+		}
+		return c.JSON(response)
+	}
+
+	response := fiber.Map{
+		"Data": img,
+		"code": "200",
+	}
+
+	defer data.Body.Close()
+	return c.JSON(response)
+}
