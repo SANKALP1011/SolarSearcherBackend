@@ -1,53 +1,36 @@
 package Services
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"time"
 
 	"solarseacher.com/solareracherbackend/Error"
-	"solarseacher.com/solareracherbackend/Model"
 	"solarseacher.com/solareracherbackend/Utils"
 )
 
-func GetIssLiveLocationService() (Model.IssLocationModel, error) {
-
+func GetIssLiveLocationService() (*http.Response, error) {
 	resp, err := http.Get(Utils.ISSLiveLocationURL)
 	if err != nil {
-		return Model.IssLocationModel{}, Error.CustomErrorHandler("Issue while fetching the location", resp.StatusCode)
+		return nil, Error.CustomErrorHandler("Issue while fetching the location", http.StatusInternalServerError)
 	}
-	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return Model.IssLocationModel{}, Error.CustomErrorHandler("Response status returned is not okay", resp.StatusCode)
+		return nil, Error.CustomErrorHandler("Response status returned is not okay", resp.StatusCode)
 	}
 
-	var location Model.IssLocationModel
-	err = json.NewDecoder(resp.Body).Decode(&location)
-	if err != nil {
-		return Model.IssLocationModel{}, Error.CustomErrorHandler("Issue while decoding the json response", resp.StatusCode)
-	}
-
-	return location, nil
+	return resp, nil
 }
 
-func GetMarsRoverData() ([]Model.MarsRoverModel, error) {
+func GetMarsRoverData() (*http.Response, error) {
 	currentDate := time.Now().Format("2006-01-02")
 	url := fmt.Sprintf(Utils.MarsRoverApi, currentDate)
 	resp, err := http.Get(url)
 	if err != nil {
-		return nil, Error.CustomErrorHandler("Issue while fetching the image from the Mars Rover API", http.StatusInternalServerError)
+		return nil, Error.CustomErrorHandler("Issue while getting the image from the mars rover api", http.StatusInternalServerError)
 	}
-	defer resp.Body.Close()
-
-	var roverApiResponse Model.MarsRoverModel
-	err = json.NewDecoder(resp.Body).Decode(&roverApiResponse)
-	if err != nil {
-		return nil, Error.CustomErrorHandler("Issue while converting the response to JSON", http.StatusBadRequest)
+	if resp.StatusCode != http.StatusOK {
+		return nil, Error.CustomErrorHandler("Response status code returned is not okay", resp.StatusCode)
 	}
-	//WORK ON THIS SERVICE
-	var roverData []Model.MarsRoverModel
-
-	return roverData, nil
+	return resp, nil
 }
