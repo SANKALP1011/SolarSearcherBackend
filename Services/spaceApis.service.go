@@ -23,7 +23,7 @@ func GetIssLiveLocationService() (*http.Response, error) {
 }
 
 func GetMarsRoverData() (*http.Response, error) {
-	currentDate := time.Now().Format("2006-01-02")
+	currentDate := time.Now().Format("2006-1-2")
 	url := fmt.Sprintf(Utils.MarsRoverApi, currentDate)
 	resp, err := http.Get(url)
 	if err != nil {
