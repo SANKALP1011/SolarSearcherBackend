@@ -51,7 +51,7 @@ func GetISSLocation(c *fiber.Ctx) error {
 		}
 		return c.JSON(response)
 	}
-
+	// FIX THE ISSUE OF RESPONSE HERE , CURRENTLY RETURNED NIL.
 	var location Model.IssLocationModel
 	if err := json.NewDecoder(bytes.NewBuffer(dataBytes)).Decode(&location); err != nil {
 		response := fiber.Map{
