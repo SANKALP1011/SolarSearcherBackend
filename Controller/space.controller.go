@@ -84,9 +84,8 @@ func GetMarsRoverImage(c *fiber.Ctx) error {
 		}
 		return c.JSON(response)
 	}
-
-	var img map[string]interface{}
-	err = json.Unmarshal(databytes, &img)
+	var marsRoverData Model.MarsRoverModel
+	err = json.Unmarshal(databytes, &marsRoverData)
 	if err != nil {
 		response := fiber.Map{
 			"Error": err.Error(),
@@ -95,7 +94,7 @@ func GetMarsRoverImage(c *fiber.Ctx) error {
 	}
 
 	response := fiber.Map{
-		"Data": img,
+		"Data": marsRoverData,
 		"code": "200",
 	}
 
