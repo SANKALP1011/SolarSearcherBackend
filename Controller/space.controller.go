@@ -87,7 +87,6 @@ func GetMarsRoverImage(c *fiber.Ctx) error {
 
 	var img map[string]interface{}
 	err = json.Unmarshal(databytes, &img)
-	fmt.Print(img)
 	if err != nil {
 		response := fiber.Map{
 			"Error": err.Error(),
