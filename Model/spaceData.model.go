@@ -23,3 +23,16 @@ type ApodModel struct {
 	Description   string `json:"explanation"`
 	HD_image      string `json:"hdurl"`
 }
+
+type WeatherModel struct {
+	Cordinates struct {
+		Latitude  float64 `json:"lat"`
+		Longitude float64 `json:"lon"`
+	} `json:"coord"`
+	Main struct {
+		Curr_temp     float64 `json:"temp"`
+		Curr_Pressure float64 `json:"pressure"`
+		Curr_Humidity float64 `json:"humidity"`
+	} `json:"main"`
+	Curr_Visibilty int32 `json:"visibility"`
+}

@@ -133,3 +133,35 @@ func GetApodImages(c *fiber.Ctx) error {
 	defer data.Body.Close()
 	return c.JSON(response)
 }
+
+func PerformWeatherAnalysis(c *fiber.Ctx) error {
+	city := c.Query("city")
+	data, err := Services.GetWeatherData(city)
+	if err != nil {
+		response := fiber.Map{
+			"Error": err.Error(),
+		}
+		return c.JSON(response)
+	}
+	databytes, err := ioutil.ReadAll(data.Body)
+	if err != nil {
+		response := fiber.Map{
+			"Error": err.Error(),
+		}
+		return c.JSON(response)
+	}
+	var weatherModel Model.WeatherModel
+	err = json.Unmarshal(databytes, &weatherModel)
+	if err != nil {
+		response := fiber.Map{
+			"Error": err.Error(),
+		}
+		return c.JSON(response)
+	}
+	defer data.Body.Close()
+	response := fiber.Map{
+		"Data": weatherModel,
+		"Code": 200,
+	}
+	return c.JSON(response)
+}
