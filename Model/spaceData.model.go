@@ -16,3 +16,10 @@ type MarsRoverModel struct {
 		EarthDate string `json:"earth_date"`
 	} `json:"photos"`
 }
+
+type ApodModel struct {
+	Copyright     string `json:"copyright"`
+	Date_of_click string `json:"date"`
+	Description   string `json:"explanation"`
+	HD_image      string `json:"hdurl"`
+}

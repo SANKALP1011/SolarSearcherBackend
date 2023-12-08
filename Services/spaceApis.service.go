@@ -37,3 +37,15 @@ func GetMarsRoverData() (*http.Response, error) {
 	}
 	return resp, nil
 }
+
+func GetAstronomyPicOfTheDay() (*http.Response, error) {
+	resp, err := http.Get(Utils.ApodApi)
+	if err != nil {
+		return nil, Error.CustomErrorHandler("Issue while fetching the date from apod api", http.StatusInternalServerError)
+	}
+	if resp.StatusCode != http.StatusOK {
+		return nil, Error.CustomErrorHandler("Response status code returned by the api is not okay", resp.StatusCode)
+	}
+
+	return resp, nil
+}

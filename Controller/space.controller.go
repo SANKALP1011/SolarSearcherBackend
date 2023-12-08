@@ -101,3 +101,35 @@ func GetMarsRoverImage(c *fiber.Ctx) error {
 	defer data.Body.Close()
 	return c.JSON(response)
 }
+
+func GetApodImages(c *fiber.Ctx) error {
+	data, err := Services.GetAstronomyPicOfTheDay()
+	if err != nil {
+		response := fiber.Map{
+			"Error": err.Error(),
+		}
+		return c.JSON(response)
+	}
+	databytes, err := ioutil.ReadAll(data.Body)
+	if err != nil {
+		response := fiber.Map{
+			"Error": err,
+		}
+		return c.JSON(response)
+	}
+	var apodData Model.ApodModel
+	err = json.Unmarshal(databytes, &apodData)
+	if err != nil {
+		response := fiber.Map{
+			"Error": err.Error(),
+		}
+		return c.JSON(response)
+	}
+	response := fiber.Map{
+
+		"Data":    apodData,
+		"success": "200",
+	}
+	defer data.Body.Close()
+	return c.JSON(response)
+}
