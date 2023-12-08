@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
+	"solarseacher.com/solareracherbackend/Helper"
 	"solarseacher.com/solareracherbackend/Model"
 	"solarseacher.com/solareracherbackend/Services"
 )
@@ -158,10 +159,15 @@ func PerformWeatherAnalysis(c *fiber.Ctx) error {
 		}
 		return c.JSON(response)
 	}
+	if weatherModel.Curr_Visibilty > 2500 && weatherModel.Main.Curr_temp > 20 && weatherModel.Main.Curr_Humidity < 70 {
+
+	}
+	analysis := Helper.WeatherAnalysisHelper(weatherModel.Main.Curr_temp, weatherModel.Curr_Visibilty, weatherModel.Main.Curr_Pressure, weatherModel.Main.Curr_Humidity)
 	defer data.Body.Close()
 	response := fiber.Map{
-		"Data": weatherModel,
-		"Code": 200,
+		"Data":     weatherModel,
+		"Analysis": analysis,
+		"Code":     200,
 	}
 	return c.JSON(response)
 }

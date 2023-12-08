@@ -2,6 +2,6 @@ package Controller
 
 import "fmt"
 
-func getUser(){
+func getUser() {
 	fmt.Println("this would take all the authentication functionality")
 }
