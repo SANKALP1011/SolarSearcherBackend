@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/joho/godotenv"
@@ -17,12 +18,15 @@ func init() {
 func main() {
 	app := fiber.New()
 
-	port := 3000
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3000"
+	}
 	Routes.SpaceRoutes(app)
-	err := app.Listen(fmt.Sprintf(":%d", port))
+	err := app.Listen(fmt.Sprintf(":%s", port))
 	if err != nil {
 		fmt.Printf("Error starting server: %v\n", err)
 	} else {
-		fmt.Printf("Server is running on port %d\n", port)
+		fmt.Printf("Server is running on port %s\n", port)
 	}
 }
