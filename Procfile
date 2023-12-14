@@ -1,1 +1,1 @@
-web: solar-seracher-api
+web: SolarSearcherBackend
