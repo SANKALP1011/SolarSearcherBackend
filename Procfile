@@ -1,1 +1,1 @@
-web: ./solar-seracher-api
+web: go run main.go
