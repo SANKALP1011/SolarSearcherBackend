@@ -15,6 +15,10 @@
 
 https://solar-geek-api.onrender.com
 
+# Postman Documentation
+
+https://documenter.getpostman.com/view/24017825/2s9Ykkf3as
+
 # Folder Strcuture
 
 - Main.go (Main server file)
