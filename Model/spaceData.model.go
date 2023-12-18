@@ -21,7 +21,7 @@ type ApodModel struct {
 	Copyright     string `json:"copyright"`
 	Date_of_click string `json:"date"`
 	Description   string `json:"explanation"`
-	HD_image      string `json:"hdurl"`
+	HD_image      string `json:"url"`
 }
 
 type WeatherModel struct {
